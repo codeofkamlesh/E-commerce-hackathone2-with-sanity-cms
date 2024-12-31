@@ -1,14 +1,13 @@
-import Hero from "../components/HomeHeroSection";
+import HomeHeroSection from "../components/HomeHeroSection";
 import LogoShowcase from "../components/HomeAllLogoShowcase";
-import FeaturedProducts from "../components/Pagesfeaturedproducts";
+import FeaturedProducts from "../components/Homefeaturedproducts";
 import TopCategories from "../components/Hometopcategories";
 import HotCategories from "../components/HomeHotcategories";
 import ProductGrid from "../components/HomeOurProductGrid";
-
-export default function Home() {
+export default async function Home() {
   return (
     <div>
-      <Hero />
+      <HomeHeroSection />
       <LogoShowcase />
       <FeaturedProducts />
       <TopCategories />

@@ -1,10 +1,10 @@
-import ProductCrad from "../../components/ProductAllProductsTopSec";
-import Newsletter from "../../components/ProductNewsletterSection";
+import ProductGrid from "../../components/ProductAllProductsTopSec";
+import NewsletterInstagram from "../../components/ProductNewsletterSection";
 const page = () => {
   return (
     <div>
-      <ProductCrad />
-      <Newsletter />
+      <ProductGrid />
+      <NewsletterInstagram />
     </div>
   );
 };

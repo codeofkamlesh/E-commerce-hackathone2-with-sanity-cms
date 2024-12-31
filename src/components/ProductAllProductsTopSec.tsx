@@ -1,129 +1,113 @@
-import { NextPage } from "next";
-import Image from "next/image";
+"use client";
 
-const FeaturedProducts: NextPage = () => {
-  const products = [
-    {
-      image: "/img1.png",
-      name: "Library Stool Chair",
-      price: 20,
-      originalPrice: 39,
-    },
-    {
-      image: "/img2.png",
-      name: "Library Stool Chair",
-      price: 20,
-      originalPrice: 39,
-    },
-    {
-      image: "/img3.png",
-      name: "Library Stool Chair",
-      price: 20,
-      originalPrice: 39,
-    },
-    {
-      image: "/img4.png",
-      name: "Library Stool Chair",
-      price: 20,
-      originalPrice: 39,
-    },
-    {
-      image: "/img5.png",
-      name: "Library Stool Chair",
-      price: 20,
-      originalPrice: 39,
-    },
-    {
-      image: "/img6.png",
-      name: "Library Stool Chair",
-      price: 20,
-      originalPrice: 39,
-    },
-    {
-      image: "/img7.png",
-      name: "Library Stool Chair",
-      price: 20,
-      originalPrice: 39,
-    },
-    {
-      image: "/img8.png",
-      name: "Library Stool Chair",
-      price: 20,
-      originalPrice: 39,
-    },
-  ];
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { ShoppingCart } from "lucide-react";
+import { client } from "@/sanity/lib/client";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { urlFor } from "@/sanity/lib/image";
+
+interface Product {
+  _id: string;
+  productDescription: string;
+  newPrice: number;
+  oldPrice?: number;
+  image: any;
+  badge?: string;
+}
+
+export default function ProductGrid() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [sectionTitle, setSectionTitle] = useState<string>("");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const sanity_data = await client.fetch(
+        `*[_type == "ProductSection1"][0]{
+          Title_ProductSection1,
+          products[]{
+            _id,
+            productDescription,
+            newPrice,
+            oldPrice,
+            image,
+            badge
+          }
+        }`
+      );
+      setSectionTitle(sanity_data?.Title_ProductSection1 || "Our Products");
+      setProducts(sanity_data?.products || []);
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleAddToCart = (productId: string) => {
+    console.log(`Added product ${productId} to cart`);
+  };
 
   return (
-    <div className="flex flex-col items-center py-8">
-      {/* Heading Section */}
-      <div className="flex justify-between w-full px-12 items-center">
-        <div className="text-2xl font-semibold capitalize">All Products</div>
-      </div>
-
-      {/* Products Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-32">
-        {products.map((product, index) => (
-          <div
-            key={index}
-            className="relative w-full h-auto bg-white rounded-lg shadow-lg p-4"
-          >
-            <Image
-              className="rounded-md"
-              width={312}
-              height={312}
-              alt={`Product Image ${index + 1}`}
-              src={product.image}
-            />
-            <div className="flex flex-col mt-4">
-              <div className="text-lg font-medium capitalize">
-                {product.name}
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold text-left mb-12 text-black">
+          {sectionTitle}
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {products.map((product) => (
+            <div
+              key={product._id}
+              className="group bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+            >
+              <div className="relative aspect-square">
+                <Image
+                  src={urlFor(product.image).url()}
+                  alt={product.productDescription}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                />
+                {product.badge && (
+                  <Badge
+                    variant={
+                      product.badge === "New" ? "default" : "destructive"
+                    }
+                    className="absolute top-4 left-4 px-3 py-1 text-sm font-semibold"
+                  >
+                    {product.badge}
+                  </Badge>
+                )}
               </div>
-              <div className="flex items-center gap-2 mt-2">
-                <div className="text-xl font-bold text-gray-800">
-                  ${product.price}
-                </div>
-                <div className="text-sm line-through text-gray-400">
-                  ${product.originalPrice}
+              <div className="p-4">
+                <h3 className="text-black font-bold text-lg mb-2">
+                  {product.productDescription}
+                </h3>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-black font-bold text-xl">
+                      ${product.newPrice}
+                    </span>
+                    {product.oldPrice && (
+                      <span className="text-gray-400 line-through">
+                        ${product.oldPrice}
+                      </span>
+                    )}
+                  </div>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={() => handleAddToCart(product._id)}
+                    className="bg-transparent hover:bg-blue-500 text-black px-4 py-2 rounded transition-all"
+                  >
+                    <ShoppingCart className="h-5 w-5" />
+                    <span className="sr-only">Add to cart</span>
+                  </Button>
                 </div>
               </div>
             </div>
-
-            {/* Add to Cart Button */}
-            <button
-              className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 transition-all duration-300 ${
-                index === 0
-                  ? "bg-[#029fae] text-white" // First card: blue background and white icon
-                  : "bg-white text-black border border-gray-300 hover:bg-[#029fae] hover:text-white" // Other cards: hover changes background and text/icon color
-              } rounded-sm shadow-md`}
-              aria-label="Add to Cart"
-            >
-              <Image
-                width={24}
-                height={24}
-                alt="Add to Cart"
-                src="/addCart.png"
-                className={`${
-                  index !== 0 ? "filter invert hover:filter-none" : ""
-                }`} // Change icon to white on hover
-              />
-            </button>
-
-            {/* Conditionally add "New" and "Sales" with spacing */}
-            {index % 4 === 0 && (
-              <div className="absolute top-6 left-6 px-3 py-1 text-white rounded-md text-sm bg-green-500">
-                New
-              </div>
-            )}
-            {index % 4 === 1 && (
-              <div className="absolute top-6 left-6 px-3 py-1 text-white rounded-md text-sm bg-[#f5813f]">
-                Sales
-              </div>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default FeaturedProducts;
+}
