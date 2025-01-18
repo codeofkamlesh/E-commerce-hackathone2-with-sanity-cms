@@ -14,6 +14,7 @@ import ProductSec2 from './ProductNewsLetterSec';
 import Singleproductpage from './SingleProductPage';
 
 import aboutus from './About';
+import Faq from './Faq';
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -31,7 +32,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
 
     Singleproductpage,
 
-    aboutus
+    aboutus,
+
+    Faq,
 
         ]
 

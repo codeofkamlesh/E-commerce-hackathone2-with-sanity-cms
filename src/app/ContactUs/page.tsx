@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
@@ -8,7 +9,50 @@ import { MdSupportAgent } from "react-icons/md";
 import Styles from "../../styles/ContactUs.module.css";
 import "../../app/globals.css";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+const formSchema = z.object(
+  {
+    YourName: z.string().min(3, {
+      message: "Your name must contain atleast 3 characters"
+    }).max(20,  {
+      message: "Your name is limited to 20 characters only"
+    }),
+
+    Email: z.string().email({message: "Invalid Email Address"}),
+
+    Subject: z.string().optional(),
+
+    Message: z.string().max(500, {message: "Your message is limited to 500 characters only"})
+  }
+);
+type formType = z.infer<typeof formSchema>;
+
 const ContactUs = () => {
+  // 1. Define your form.
+  const form = useForm<formType>({
+    resolver: zodResolver(formSchema),
+  });
+
+  // 2. Define a submit handler.
+  function onSubmit(values: formType) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+  }
+
   return (
     <div className={Styles.containor}>
       <div className={Styles.maindiv}>
@@ -28,7 +72,11 @@ const ContactUs = () => {
               </i>
               <div className={Styles.two}>
                 <h2>Address</h2>
-                <p>236 5th SE Avenue, New York NY10000, United States</p>
+                <p>
+                  236 5th SE Avenue,
+                  <br /> New York NY10000,
+                  <br /> United States
+                </p>
               </div>
             </div>
             <div className={Styles.leftitems}>
@@ -37,7 +85,10 @@ const ContactUs = () => {
               </i>
               <div className={Styles.two}>
                 <h2>Phone</h2>
-                <p>Mobile: +(84) 546-6789 Hotline: +(84) 456-6789</p>
+                <p>
+                  Mobile: +(84) 546-6789 <br />
+                  Hotline: +(84) 456-6789
+                </p>
               </div>
             </div>
             <div className={Styles.leftitems}>
@@ -46,31 +97,108 @@ const ContactUs = () => {
               </i>
               <div className={Styles.two}>
                 <h2>Working Hours</h2>
-                <p>Monday-Friday: 9:00 - 22:00 Saturday-Sunday: 9:00 - 21:00</p>
+                <p>
+                  Monday-Friday: 9:00 - 22:00 <br />
+                  Saturday-Sunday: 9:00 - 21:00
+                </p>
               </div>
             </div>
           </div>
 
           <div className={Styles.rightdiv}>
-            <form action="post">
-              <div className={Styles.labinput}>
-                <label htmlFor="">Your name</label>
-                <input type="text" placeholder="Abc" />
-              </div>
-              <div className={Styles.labinput}>
-                <label htmlFor="">Email address</label>
-                <input type="text" placeholder="Abc@def.com" />
-              </div>
-              <div className={Styles.labinput}>
-                <label htmlFor="">Subject</label>
-                <input type="text" placeholder="This is an optional" />
-              </div>
-              <div className={Styles.labinput}>
-                <label htmlFor="">Message</label>
-                <textarea placeholder="Hi! I'd like to ask about"></textarea>
-                <button>Submit</button>
-              </div>
-            </form>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <div className={Styles.labinput}>
+
+
+                  <FormField
+                    control={form.control}
+                    name="YourName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base font-semibold mb-4"
+
+                        >Your Name</FormLabel>
+                        <FormControl>
+                          <Input className="w-full p-2.5 border border-gray-300 rounded-md text-sm mb-4"
+
+                            placeholder="Abc" {...field} />
+                        </FormControl>
+                          <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+
+                </div>
+                <div className={Styles.labinput}>
+
+                <FormField
+                    control={form.control}
+                    name= "Email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base font-semibold mb-4"
+                        >Email Address</FormLabel>
+                        <FormControl>
+                          <Input className="w-full p-2.5 border border-gray-300 rounded-md text-sm mb-4"
+
+                            placeholder="ABC@def.com" {...field} />
+                        </FormControl>
+                          <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                </div>
+                <div className={Styles.labinput}>
+
+                <FormField
+                    control={form.control}
+                    name= "Subject"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base font-semibold mb-4"
+                        >Subject</FormLabel>
+                        <FormControl>
+                          <Input className="w-full p-2.5 border border-gray-300 rounded-md text-sm mb-4"
+
+                            placeholder="This is optional" {...field} />
+                        </FormControl>
+                          <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                </div>
+                <div className={Styles.labinput}>
+
+                <FormField
+                    control={form.control}
+                    name= "Message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base font-semibold mb-4"
+                        >Message</FormLabel>
+                        <FormControl>
+                          <Input className="w-full p-2.5 border border-gray-300 rounded-md text-sm mb-4 resize-none"
+
+                            placeholder="Hi! I'd like to ask about" {...field} />
+                        </FormControl>
+                          <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+
+                </div>
+                <Button type="submit" className="w-full max-w-[200px] p-2.5 bg-[#029fae] text-white text-base font-bold rounded-md cursor-pointer mt-2.5"
+                >Submit</Button>
+              </form>
+            </Form>
           </div>
         </div>
       </div>

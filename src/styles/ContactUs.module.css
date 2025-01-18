@@ -79,40 +79,7 @@
   gap: 20px;
 }
 
-.labinput label {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 15px;
-}
 
-.labinput input,
-.labinput textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  margin-bottom: 15px;
-}
-
-.labinput textarea {
-  resize: none;
-}
-
-.labinput button {
-  width: 100%;
-  max-width: 200px;
-  padding: 10px;
-  background: #029fae;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  align-self: flex-start;
-  margin-top: 10px;
-}
 
 /* Base General Styles */
 .belowthree {
