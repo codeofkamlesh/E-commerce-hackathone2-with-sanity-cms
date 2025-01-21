@@ -1,8 +1,11 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { BsCartDash } from "react-icons/bs";
 import { client } from "@/sanity/lib/client"; // Adjust this path to your sanity client configuration
+import { useToast } from "@/hooks/use-toast"; // Ensure correct import for the shadcn toaster
+
 
 interface FeaturedProduct {
   name: string;
@@ -29,6 +32,7 @@ interface FeaturedProductItem {
 const ProductCarousel: React.FC = () => {
   const [featuredProduct, setFeaturedProduct] = useState<FeaturedProduct | null>(null);
   const [featuredProducts, setFeaturedProducts] = useState<FeaturedProductItem[]>([]);
+  const { toast } = useToast(); // Initialize the toast function here
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -90,10 +94,15 @@ const ProductCarousel: React.FC = () => {
             <div className="inline-block rounded-full text-sm text-white bg-teal-600 px-4 py-1">
               ${featuredProduct.price}.00 USD
             </div>
-            <p className="text-gray-600">
-              {featuredProduct.description}
-            </p>
-            <button className="bg-teal-600 text-white px-6 py-2 rounded-lg flex items-center hover:bg-teal-700 transition-colors">
+            <p className="text-gray-600">{featuredProduct.description}</p>
+            <button
+              onClick={() => {
+                toast({ 
+                  description: "Your Product is added to the Cart.",
+                });
+              }}
+              className="bg-teal-600 text-white px-6 py-2 rounded-lg flex items-center hover:bg-teal-700 transition-colors"
+            >
               <BsCartDash className="mr-2" />
               Add To Cart
             </button>

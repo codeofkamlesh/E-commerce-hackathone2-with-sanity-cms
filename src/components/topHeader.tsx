@@ -6,6 +6,18 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import { LuCircleAlert } from "react-icons/lu";
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -73,6 +85,64 @@ const Navigation = () => {
             <Link href="/">Comforty</Link>
           </div>
         </div>
+
+       <div className="">
+    <Select >
+      <SelectTrigger className="w-[200px] bg-white hover:bg-teal-600 hover:!text-white ">
+        <SelectValue placeholder="Select category" />
+      </SelectTrigger >
+      <SelectContent>
+        <SelectGroup >
+
+        <SelectLabel className="!bg-[#3b3466] !text-white">Select Category</SelectLabel>
+
+          <SelectItem value="All" className="hover:!bg-teal-600 hover:!text-white">All</SelectItem>
+          <SelectItem value="lounge Chair" className="hover:!bg-teal-600 hover:!text-white">Lounge and Relaxation Chairs</SelectItem>
+          <SelectItem value="Dining Chair" className="hover:!bg-teal-600 hover:!text-white">Dining Chairs</SelectItem>
+          <SelectItem value="office Chair" className="hover:!bg-teal-600 hover:!text-white">Office Chairs</SelectItem>
+          <SelectItem value="outdoor Chair" className="hover:!bg-teal-600 hover:!text-white">Outdoor Chairs</SelectItem>
+          <SelectItem value="kids Chair" className="hover:!bg-teal-600 hover:!text-white">Kids Chairs</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+    </div>
+
+
+       <div className="">
+    <Select >
+      <SelectTrigger className="w-[350px] bg-white hover:bg-teal-600 hover:!text-white ">
+        <SelectValue placeholder="Select Product" />
+      </SelectTrigger >
+      <SelectContent >
+        <SelectGroup >
+        <SelectLabel className="!bg-[#3b3466] !text-white">Select Product</SelectLabel>
+          <SelectItem value="1" className="hover:!bg-teal-600 hover:!text-white">Zero Gravity Chairs</SelectItem>
+          <SelectItem value="2" className="hover:!bg-teal-600 hover:!text-white">Papasan Chairs</SelectItem>
+          <SelectItem value="3" className="hover:!bg-teal-600 hover:!text-white">Bean Bag Chairs</SelectItem>
+          <SelectItem value="4" className="hover:!bg-teal-600 hover:!text-white">Hanging Egg Chairs</SelectItem>
+          <SelectItem value="5" className="hover:!bg-teal-600 hover:!text-white">Wooden Dining Chairs</SelectItem>
+          <SelectItem value="6" className="hover:!bg-teal-600 hover:!text-white">Metal Dining Chairs</SelectItem>
+          <SelectItem value="7" className="hover:!bg-teal-600 hover:!text-white">Plastic Dining Chairs</SelectItem>
+          <SelectItem value="8" className="hover:!bg-teal-600 hover:!text-white">Ladder Back Chairs</SelectItem>
+          <SelectItem value="9" className="hover:!bg-teal-600 hover:!text-white">Executive Chairs</SelectItem>
+          <SelectItem value="10" className="hover:!bg-teal-600 hover:!text-white">Task Chairs</SelectItem>
+          <SelectItem value="11" className="hover:!bg-teal-600 hover:!text-white">Conference Chairs</SelectItem>
+          <SelectItem value="12" className="hover:!bg-teal-600 hover:!text-white">Gaming Chairs</SelectItem>
+          <SelectItem value="13" className="hover:!bg-teal-600 hover:!text-white">Adirondack Chairs</SelectItem>
+          <SelectItem value="14" className="hover:!bg-teal-600 hover:!text-white">Patio Chairs</SelectItem>
+          <SelectItem value="15" className="hover:!bg-teal-600 hover:!text-white">Hammock Chairs</SelectItem>
+          <SelectItem value="16" className="hover:!bg-teal-600 hover:!text-white">Deck Chairs</SelectItem>
+          <SelectItem value="17" className="hover:!bg-teal-600 hover:!text-white">Bean Bag Chairs</SelectItem>
+          <SelectItem value="18" className="hover:!bg-teal-600 hover:!text-white">Rocking Chairs for Kids</SelectItem>
+          <SelectItem value="19" className="hover:!bg-teal-600 hover:!text-white">Toddler Chairs</SelectItem>
+          <SelectItem value="20" className="hover:!bg-teal-600 hover:!text-white">Booster Seats</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+    </div>
+
+    <Button className="bg-teal-600 hover:bg-teal-700 hover:text-white">Search</Button>
+
         <div className="flex items-center gap-3 text-xs">
           <div className="bg-white rounded-xl p-[11px_16px] flex items-center gap-3 text-black">
             <Link href="/Cart">

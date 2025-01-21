@@ -85,7 +85,7 @@ export default function Footer() {
                   href="#"
                   className="hover:text-[#007580] hover:underline hover:underline-offset-4"
                 >
-                  Sofa
+                  Lounge and Relaxation Chairs
                 </a>
               </li>
               <li>
@@ -93,7 +93,7 @@ export default function Footer() {
                   href="#"
                   className="hover:text-[#007580] hover:underline hover:underline-offset-4"
                 >
-                  Armchair
+                  Dining Chairs
                 </a>
               </li>
               <li>
@@ -101,7 +101,7 @@ export default function Footer() {
                   href="#"
                   className="hover:text-[#007580] hover:underline hover:underline-offset-4"
                 >
-                  Wing Chair
+                  Office Chairs
                 </a>
               </li>
               <li>
@@ -109,7 +109,7 @@ export default function Footer() {
                   href="#"
                   className="hover:text-[#007580] hover:underline hover:underline-offset-4"
                 >
-                  Desk Chair
+                  utdoor Chairs
                 </a>
               </li>
               <li>
@@ -117,17 +117,10 @@ export default function Footer() {
                   href="#"
                   className="hover:text-[#007580] hover:underline hover:underline-offset-4"
                 >
-                  Wooden Chair
+                  Kids Chairs
                 </a>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-[#007580] hover:underline hover:underline-offset-4"
-                >
-                  Park Bench
-                </a>
-              </li>
+             
             </ul>
           </div>
 
