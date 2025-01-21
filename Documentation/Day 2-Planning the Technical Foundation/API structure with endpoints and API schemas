@@ -1,0 +1,244 @@
+ API Structure
+" Products API "
+
+    Endpoint Name: /products
+    Method: GET
+    Purpose: Fetch all products.
+    Response Example:
+
+[
+  {
+    "id": "1",
+    "name": "Sofa Set",
+    "price": 500,
+    "description": "Luxury leather sofa set.",
+    "stock": 10,
+    "category": "Living Room",
+    "images": ["image1.jpg", "image2.jpg"]
+  },
+  {
+    "id": "2",
+    "name": "Dining Table",
+    "price": 300,
+    "description": "Wooden dining table with 6 chairs.",
+    "stock": 5,
+    "category": "Dining Room",
+    "images": ["image3.jpg", "image4.jpg"]
+  }
+]
+
+    Endpoint Name: /products/:id
+    Method: GET
+    Purpose: Fetch product details by ID.
+    Response Example:
+
+{
+  "id": "1",
+  "name": "Sofa Set",
+  "price": 500,
+  "description": "Luxury leather sofa set.",
+  "stock": 10,
+  "category": "Living Room",
+  "images": ["image1.jpg", "image2.jpg"]
+}
+
+
+
+" Orders API "
+
+    Endpoint Name: /orders
+    Method: POST
+    Purpose: Create a new order.
+    Request Example:
+
+{
+  "customerId": "123",
+  "items": [
+    { "productId": "1", "quantity": 2 },
+    { "productId": "2", "quantity": 1 }
+  ],
+  "totalAmount": 1300
+}
+
+    Response Example:
+
+{
+  "orderId": "456",
+  "status": "Success"
+}
+
+    Endpoint Name: /orders/:orderId
+    Method: GET
+    Purpose: Fetch order details by order ID.
+    Response Example:
+
+{
+  "orderId": "456",
+  "customer": {
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+  },
+  "items": [
+    { "productId": "1", "name": "Sofa Set", "quantity": 2, "price": 500 },
+    { "productId": "2", "name": "Dining Table", "quantity": 1, "price": 300 }
+  ],
+  "totalAmount": 1300,
+  "status": "Shipped"
+}
+
+
+
+" Payment API "
+
+    Endpoint Name: /payment
+    Method: POST
+    Purpose: Process payment for an order.
+    Request Example:
+
+{
+  "orderId": "456",
+  "amount": 1300,
+  "paymentMethod": "Credit Card"
+}
+
+    Response Example:
+
+{
+  "status": "Paid",
+  "paymentId": "789XYZ"
+}
+
+
+
+" Shipping API "
+
+    Endpoint Name: /shipment/:orderId
+    Method: GET
+    Purpose: Fetch shipment status for an order.
+    Response Example:
+
+{
+  "status": "In Transit",
+  "ETA": "2 days"
+}
+
+
+* "API Schema Design"
+
+
+* Product Schema:
+
+export default {
+  name: "product",
+  type: "document",
+  title: "Product",
+  fields: [
+    {
+      name: "name",
+      type: "string",
+      title: "Product Name",
+    },
+    {
+      name: "price",
+      type: "number",
+      title: "Price",
+    },
+    {
+      name: "description",
+      type: "text",
+      title: "Description",
+    },
+    {
+      name: "stock",
+      type: "number",
+      title: "Stock Level",
+    },
+    {
+      name: "category",
+      type: "string",
+      title: "Category",
+    },
+    {
+      name: "images",
+      type: "array",
+      of: [{ type: "image" }],
+      title: "Images",
+    },
+  ],
+};
+
+* Order Schema:
+
+export default {
+  name: "order",
+  type: "document",
+  title: "Order",
+  fields: [
+    {
+      name: "customer",
+      type: "reference",
+      to: [{ type: "customer" }],
+      title: "Customer",
+    },
+    {
+      name: "items",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "productId",
+              type: "string",
+              title: "Product ID",
+            },
+            {
+              name: "quantity",
+              type: "number",
+              title: "Quantity",
+            },
+          ],
+        },
+      ],
+      title: "Items",
+    },
+    {
+      name: "totalAmount",
+      type: "number",
+      title: "Total Amount",
+    },
+    {
+      name: "status",
+      type: "string",
+      title: "Status",
+      options: {
+        list: ["Pending", "Paid", "Shipped", "Delivered"],
+      },
+    },
+  ],
+};
+
+* Customer Schema:
+
+export default {
+  name: "customer",
+  type: "document",
+  title: "Customer",
+  fields: [
+    {
+      name: "name",
+      type: "string",
+      title: "Name",
+    },
+    {
+      name: "email",
+      type: "string",
+      title: "Email",
+    },
+    {
+      name: "address",
+      type: "text",
+      title: "Address",
+    },
+  ],
+};

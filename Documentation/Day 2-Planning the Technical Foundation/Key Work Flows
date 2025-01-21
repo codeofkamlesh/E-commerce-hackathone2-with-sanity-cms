@@ -1,0 +1,18 @@
+"User Browsing Products"
+
+   * User visits the website → Frontend (Next.js) requests data from /products API.
+   * API fetches product data from Sanity CMS.
+   * Products are displayed on the frontend.
+
+"Order Placement"
+
+   * User adds items to the cart → Proceeds to checkout.
+   * Frontend sends order details to /orders API.
+   * API stores the order in Sanity CMS.
+   * Frontend calls /payment API → Processes payment through Stripe.
+
+"Shipment Tracking"
+
+   * Frontend calls /shipment/:orderId API.
+   * API fetches real-time data from the shipping provider's API.
+   * Status is displayed to the user.

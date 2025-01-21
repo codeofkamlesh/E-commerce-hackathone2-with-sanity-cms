@@ -1,0 +1,9 @@
+Detailed API Requirements
+
+ APIs to handle data between your frontend, backend, and external services.
+Endpoint	Method	Purpose	Request Body	Response Example
+/products	GET	Fetches all furniture products	None	{ "id": 1, "name": "Chair", "price": 100 }
+/product/:id	GET	Fetches a single product by ID	None	{ "id": 1, "name": "Chair", "description": "..."}
+/orders	POST	Creates a new order	{ "customerId": 123, "items": [...] }	{ "orderId": 456, "status": "Success" }
+/shipment/:orderId	GET	Fetches shipping details for an order	None	{ "status": "In Transit", "ETA": "2 days" }
+/payment	POST	Processes payment	{ "orderId": 456, "amount": 300 }	{ "status": "Paid", "paymentId": "789XYZ" }
