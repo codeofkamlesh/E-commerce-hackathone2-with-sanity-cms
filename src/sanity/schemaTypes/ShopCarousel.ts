@@ -1,5 +1,5 @@
 // /schemas/carousel.js
-export default {
+const shopcarousel= {
     name: 'carousel',
     title: 'Carousel',
     type: 'document',
@@ -17,3 +17,4 @@ export default {
       },
     ],
   };
+  export default shopcarousel;

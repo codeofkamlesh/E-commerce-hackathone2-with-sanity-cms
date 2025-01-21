@@ -1,5 +1,5 @@
 // /schemas/chairsCollection.js
-export default {
+const shopchairs= {
     name: 'chairsCollection',
     title: 'Chairs Collection',
     type: 'document',
@@ -29,3 +29,4 @@ export default {
       },
     ],
   };
+  export default shopchairs;

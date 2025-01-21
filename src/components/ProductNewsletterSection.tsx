@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { client } from "@/sanity/lib/client";
 
@@ -33,7 +34,6 @@ export default function NewsletterInstagram() {
           submitButtonText
         }`
       );
-
 
       // Sanity might return undefined or null, so ensure the data is structured properly
       if (sanityData) {
@@ -72,12 +72,15 @@ export default function NewsletterInstagram() {
           {/* Ensure `instagramImages` is not empty */}
           {content.instagramImages && content.instagramImages.length > 0 ? (
             content.instagramImages.map((image, index) => (
-              <img
-                key={index}
-                className="rounded-md w-24 h-24 object-cover"
-                src={image.asset.url} // Ensure the URL is accessed correctly
-                alt={`Instagram ${index + 1}`}
-              />
+              <div key={index} className="relative rounded-md w-24 h-24 overflow-hidden">
+                <Image
+                  src={image.asset.url} // Ensure the URL is accessed correctly
+                  alt={`Instagram ${index + 1}`}
+                  layout="fill" // Ensures the image fills the container
+                  objectFit="cover" // Maintains aspect ratio and covers the area
+                  className="rounded-md"
+                />
+              </div>
             ))
           ) : (
             <div>No Instagram images available.</div>

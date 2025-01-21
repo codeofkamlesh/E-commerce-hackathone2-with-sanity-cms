@@ -11,14 +11,24 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
+// Define the structure of the image object
+interface ImageType {
+  _type: "image";
+  asset: {
+    _ref: string;
+    _type: "reference";
+  };
+}
+
+// Define the structure of a chair item
 interface ChairItem {
   title: string;
   price: number;
-  image: any;
+  image: ImageType;
 }
 
 const Shop = () => {
-  const [carouselImages, setCarouselImages] = useState<any[]>([]);
+  const [carouselImages, setCarouselImages] = useState<ImageType[]>([]);
   const [stoolChairs, setStoolChairs] = useState<ChairItem[]>([]);
   const [comfortChairs, setComfortChairs] = useState<ChairItem[]>([]);
   const [sofaCollection, setSofaCollection] = useState<ChairItem[]>([]);
@@ -36,13 +46,13 @@ const Shop = () => {
 
       // Filter data by type
       setStoolChairs(
-        chairsData.find((item: any) => item.type === "stoolChairs")?.items || []
+        chairsData.find((item: { type: string; items: ChairItem[] }) => item.type === "stoolChairs")?.items || []
       );
       setComfortChairs(
-        chairsData.find((item: any) => item.type === "comfortChairs")?.items || []
+        chairsData.find((item: { type: string; items: ChairItem[] }) => item.type === "comfortChairs")?.items || []
       );
       setSofaCollection(
-        chairsData.find((item: any) => item.type === "sofaCollection")?.items || []
+        chairsData.find((item: { type: string; items: ChairItem[] }) => item.type === "sofaCollection")?.items || []
       );
     };
 
@@ -96,6 +106,7 @@ const Shop = () => {
   );
 };
 
+// Component to render each chair section
 const Section = ({ title, items }: { title: string; items: ChairItem[] }) => (
   <div className="flex flex-col mt-10 bg-white pb-10">
     <h2 className="text-xl md:text-2xl 2xl:text-3xl font-semibold text-center text-black mb-4 underline py-5">

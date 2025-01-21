@@ -1,4 +1,4 @@
-export default {
+const homeourprodgrid = {
     name: 'HomeSection4',
     title: 'HomePage Section4',
     type: 'document',
@@ -59,3 +59,4 @@ export default {
       },
     ],
   };
+  export default homeourprodgrid;

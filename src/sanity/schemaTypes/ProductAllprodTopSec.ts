@@ -1,4 +1,4 @@
-export default {
+const prodAllprod = {
     name: 'ProductSection1',
     title: 'Product Page top Section',
     type: 'document',
@@ -59,3 +59,4 @@ export default {
       },
     ],
   };
+export default prodAllprod;

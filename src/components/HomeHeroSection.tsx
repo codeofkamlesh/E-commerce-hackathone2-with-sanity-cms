@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 

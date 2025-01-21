@@ -1,5 +1,5 @@
 // schemas/faqs.js
-export default {
+const faq = {
     name: "faq",
     title: "Frequently Asked Questions Page",
     type: "document",
@@ -8,7 +8,7 @@ export default {
         name: "title",
         title: "Title",
         type: "string",
-        validation: (Rule: { required: () => any; }) => Rule.required(),
+
       },
       {
         name: "description",
@@ -27,18 +27,19 @@ export default {
                 name: "question",
                 title: "Question",
                 type: "string",
-                validation: (Rule: { required: () => any; }) => Rule.required(),
+
               },
               {
                 name: "answer",
                 title: "Answer",
                 type: "text",
-                validation: (Rule: { required: () => any; }) => Rule.required(),
+
               },
-             
+
             ],
           },
         ],
       },
     ],
   };
+  export default faq;

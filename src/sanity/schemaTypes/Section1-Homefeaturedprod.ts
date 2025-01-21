@@ -1,4 +1,4 @@
-export default {
+const homefeatured = {
     name: 'HomeSection1',
     title: 'HomePage Section1',
     type: 'document',
@@ -60,3 +60,4 @@ export default {
       },
     ],
   };
+export default homefeatured;

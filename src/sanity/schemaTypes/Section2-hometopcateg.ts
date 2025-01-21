@@ -1,4 +1,4 @@
-export default {
+const hometopcateg = {
   name: 'HomeSection2',
   title: 'HomePage Section2',
   type: 'document',
@@ -47,3 +47,4 @@ export default {
     },
   ],
 };
+export default hometopcateg;

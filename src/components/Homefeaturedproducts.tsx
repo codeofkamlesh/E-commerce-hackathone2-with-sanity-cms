@@ -2,6 +2,27 @@ import { client } from "@/sanity/lib/client"; // Import the Sanity client to fet
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image"; // Import the Sanity image helper for generating image URLs
 
+// Define the TypeScript interface for a product
+interface Product {
+  productDescription: string;
+  oldPrice?: number;
+  newPrice: number;
+  image: {
+    _type: string;
+    asset: {
+      _ref: string;
+      _type: string;
+    };
+  };
+  badge?: string;
+}
+
+// Define the TypeScript interface for the data fetched from Sanity
+interface HomeSectionData {
+  Title_HomeSection1: string;
+  products: Product[];
+}
+
 export default async function FeaturedProducts() {
   // GROQ Query to fetch the Featured Products section data
   const query = `*[_type == "HomeSection1"][0] {
@@ -15,7 +36,7 @@ export default async function FeaturedProducts() {
     }
   }`;
 
-  const data = await client.fetch(query); // Fetch data from Sanity
+  const data: HomeSectionData | null = await client.fetch(query); // Fetch data from Sanity
 
   return (
     <div className="flex flex-col items-center px-10">
@@ -28,7 +49,7 @@ export default async function FeaturedProducts() {
 
       {/* Products Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-y-32">
-        {data?.products?.map((product: any, index: number) => (
+        {data?.products?.map((product, index) => (
           <div
             key={index}
             className="relative w-full h-auto bg-white rounded-lg shadow-lg p-4"

@@ -1,6 +1,6 @@
-export default {
-  name: "HomeSection3",
-  title: "HomePage Section3",
+const homehotcateg = {
+name: "HomeSection3",
+title: "HomePage Section3",
   type: "document",
   fields: [
     {
@@ -23,3 +23,4 @@ export default {
     },
   ],
 };
+export default homehotcateg;

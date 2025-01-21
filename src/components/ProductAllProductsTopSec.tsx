@@ -8,12 +8,22 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { urlFor } from "@/sanity/lib/image";
 
+// Define the type for the image field returned from Sanity
+interface SanityImage {
+  _type: string;
+  asset: {
+    _ref: string;
+    _type: string;
+  };
+}
+
+// Define the Product interface
 interface Product {
   _id: string;
   productDescription: string;
   newPrice: number;
   oldPrice?: number;
-  image: any;
+  image: SanityImage; // Replace `any` with `SanityImage`
   badge?: string;
 }
 

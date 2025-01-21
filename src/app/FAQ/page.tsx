@@ -3,11 +3,13 @@
 import React, { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { client } from "../../sanity/lib/client";
+import * as Icons from "react-icons/fa6"; // Import all icons dynamically
+import { IconType } from "react-icons"; // Import IconType
 
 interface FAQItem {
   question: string;
   answer: string;
-  icon?: string;
+  icon?: string; // Icon name as string
 }
 
 const Faqs = () => {
@@ -23,8 +25,8 @@ const Faqs = () => {
           description,
           faqItems[] {
             question,
-            answer
-
+            answer,
+            icon
           }
         }`
       );
@@ -63,8 +65,15 @@ const FAQCard = ({ faq }: { faq: FAQItem }) => (
   </div>
 );
 
-const DynamicIcon = ({ icon }: { icon: string }) => {
-  const IconComponent = FaPlus; // Replace this with dynamic icon rendering if needed
+interface DynamicIconProps {
+  icon: string;
+}
+
+const DynamicIcon = ({ icon }: DynamicIconProps) => {
+  const IconComponent = Icons[icon as keyof typeof Icons] as IconType; // Use keyof to ensure type safety
+  if (!IconComponent) {
+    return <FaPlus />; // Default icon if not found
+  }
   return <IconComponent />;
 };
 
