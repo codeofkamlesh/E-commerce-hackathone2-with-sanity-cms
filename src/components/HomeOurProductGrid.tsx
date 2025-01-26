@@ -6,6 +6,7 @@ import { ShoppingCart } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+// import Link from "next/link";
 
 // Define the Product interface
 interface Product {
@@ -17,6 +18,10 @@ interface Product {
   badge?: string;
   inventory: number;
   tags: string[];
+  slug:{
+    _type: "slug",
+    current: "string"
+  }
 }
 
 export default function ProductGrid() {
@@ -62,6 +67,7 @@ export default function ProductGrid() {
               key={product._id}
               className="group bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
             >
+              {/* <Link href={`./product/${product.slug.current}`}> */}
               <div className="relative aspect-square overflow-hidden">
                 {/* Update Image Component */}
                 <Image
@@ -109,6 +115,7 @@ export default function ProductGrid() {
                   </Button>
                 </div>
               </div>
+              {/* </Link> */}
             </div>
           ))}
         </div>
