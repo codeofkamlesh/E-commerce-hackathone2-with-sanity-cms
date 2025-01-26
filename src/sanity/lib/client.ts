@@ -9,7 +9,7 @@ export const client = createClient({
   dataset: "production",
   apiVersion: "2024-12-28",
   useCdn: false, // For development and real-time updates, set this to `false`
-  token: process.env.SANITY_PREVIEW_TOKEN,
+  token: process.env.NEXT_PUBLIC_SANITY_AUTH_TOKEN,
 });
 
 const builder = imageUrlBuilder(client);
