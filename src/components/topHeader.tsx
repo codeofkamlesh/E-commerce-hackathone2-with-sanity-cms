@@ -26,7 +26,7 @@ const Navigation = () => {
   const handleSearch = () => {
     if (selectedCategory) {
       // Redirect to the product page with the selected category
-      window.location.href = `/Product?category=${selectedCategory}`;
+      window.location.href = `/Productmenu?category=${selectedCategory}`;
     } else {
       // Show an alert if no category is selected
       alert("Please select a category!");
@@ -179,7 +179,7 @@ const Navigation = () => {
             <Link href="/">Home</Link>
           </div>
           <div className="relative leading-[110%] hover:text-[#ce4649] hover:underline capitalize font-semibold text-[15px]">
-            <Link href="/Product">Products</Link>
+            <Link href="/Productmenu">Products</Link>
           </div>
           <div className="relative leading-[110%] hover:text-[#ce4649] hover:underline capitalize font-semibold text-[15px]">
             <Link href="/Singlepageproduct">Pages</Link>

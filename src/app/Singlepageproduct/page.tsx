@@ -6,8 +6,8 @@ import { BsCartDash } from "react-icons/bs";
 import { client } from "@/sanity/lib/client"; // Adjust this path to your sanity client configuration
 import { useToast } from "@/hooks/use-toast"; // Ensure correct import for the shadcn toaster
 
-
-interface FeaturedProduct {
+// Product Interface
+interface Product {
   name: string;
   price: string;
   description: string;
@@ -18,9 +18,11 @@ interface FeaturedProduct {
   };
 }
 
+// Featured Product Interface
 interface FeaturedProductItem {
   name: string;
   price: string;
+  description: string; // Added description field
   image: {
     asset: {
       url: string;
@@ -30,14 +32,14 @@ interface FeaturedProductItem {
 }
 
 const ProductCarousel: React.FC = () => {
-  const [featuredProduct, setFeaturedProduct] = useState<FeaturedProduct | null>(null);
+  const [featuredProduct, setFeaturedProduct] = useState<Product | null>(null); // Currently displayed product
   const [featuredProducts, setFeaturedProducts] = useState<FeaturedProductItem[]>([]);
   const { toast } = useToast(); // Initialize the toast function here
 
+  // Fetch product data
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Fetching data from Sanity
         const fetchedData = await client.fetch(
           `*[_type == "Singleproductpage"][0]{
             featuredProduct {
@@ -53,17 +55,18 @@ const ProductCarousel: React.FC = () => {
             featuredProducts[] {
               name,
               price,
+              description, // Ensure description is fetched here
               image {
                 asset->{
                   url
-                },
+                }
               },
               altText
             }
           }`
         );
 
-        setFeaturedProduct(fetchedData.featuredProduct);
+        setFeaturedProduct(fetchedData.featuredProduct); // Set the initial featured product
         setFeaturedProducts(fetchedData.featuredProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -72,6 +75,12 @@ const ProductCarousel: React.FC = () => {
 
     fetchProducts();
   }, []);
+
+  // Handle product click
+  const handleProductClick = (product: FeaturedProductItem) => {
+    setFeaturedProduct(product); // Set the clicked product as the featured product
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top of the page
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -94,7 +103,8 @@ const ProductCarousel: React.FC = () => {
             <div className="inline-block rounded-full text-sm text-white bg-teal-600 px-4 py-1">
               ${featuredProduct.price}.00 USD
             </div>
-            <p className="text-gray-600">{featuredProduct.description}</p>
+            {/* Display Product Description */}
+            <p className="text-gray-600">A Very comfortable and economic product on a suitable price , available in different sizes and different colors , try once and suggest everyone .</p>
             <button
               onClick={() => {
                 toast({
@@ -123,19 +133,21 @@ const ProductCarousel: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {featuredProducts.map((product, index) => (
-            <div key={index} className="flex flex-col">
-            <div className="relative w-[250px] h-[250px] mb-2 overflow-hidden ">
+            <div
+              key={index}
+              className="flex flex-col cursor-pointer"
+              onClick={() => handleProductClick(product)} // Handle product click
+            >
+              <div className="relative w-[250px] h-[250px] mb-2 overflow-hidden">
                 <Image
                   className="rounded-md object-cover"
-                  width={300}  // Fixed width
-                  height={300} // Fixed height to make the images square
+                  width={300}
+                  height={300}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   alt={product.altText || product.name}
                   src={product.image.asset.url}
                 />
               </div>
-
-
               <div className="flex justify-between items-center">
                 <p className="text-sm capitalize">{product.name}</p>
                 <b className="text-sm text-black">${product.price}</b>

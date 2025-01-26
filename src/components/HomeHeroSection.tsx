@@ -24,7 +24,7 @@ export default async function Home() {
           <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-[#272343] font-bold capitalize leading-tight mb-4 md:mb-6">
             <span className="block">{sanityData?.mainTitle || "No Title Found"}</span>
           </h1>
-          <Link href="/Product">
+          <Link href="/Productmenu">
           <button className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#029fae] text-white text-base md:text-lg font-semibold transition-colors hover:bg-[#ce4649] mx-auto lg:mx-0">
             <span> Shop Now</span>
             <Image

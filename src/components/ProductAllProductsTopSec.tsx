@@ -7,6 +7,7 @@ import { client } from "@/sanity/lib/client";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { urlFor } from "@/sanity/lib/image";
+// import {Product} from "../../src/types/product";
 import {
   Carousel,
   CarouselContent,
@@ -16,7 +17,7 @@ import {
 } from "@/components/ui/carousel";
 
 // Define interfaces for Sanity data
-interface SanityImage {
+export interface SanityImage {
   _type: string;
   asset: {
     _ref: string;
@@ -24,13 +25,13 @@ interface SanityImage {
   };
 }
 
-interface Category {
+export interface Category {
   _id: string;
   title: string;
   image: SanityImage;
 }
 
-interface Product {
+export interface Product {
   _id: string;
   title: string;
   price: number;
@@ -44,6 +45,10 @@ interface Product {
   };
   inventory: number;
   tags: string[];
+  slug: {
+    _type: "slug";
+    current: string;
+  };
 }
 
 export default function ProductGrid() {
