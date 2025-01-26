@@ -1,5 +1,6 @@
 import { client } from "@/sanity/lib/client"; // Import Sanity client
 import Image from "next/image";
+import Link from "next/link";
 
 // Define a type for the category
 interface Category {
@@ -52,6 +53,7 @@ export default async function ProductCategories() {
               key={category.image.asset._id}
               className="relative aspect-[4/3] overflow-hidden rounded-lg group"
             >
+               <Link href="/Productmenu">
               <Image
                 src={category.image.asset.url || "/placeholder.png"} // Use the first image as featured
                 alt={category.title || "Featured Category"}
@@ -62,6 +64,7 @@ export default async function ProductCategories() {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black/20 transition-opacity group-hover:opacity-0" />
+              </Link>
             </div>
           ))}
 
@@ -72,6 +75,7 @@ export default async function ProductCategories() {
                 key={category.image.asset._id}
                 className="relative aspect-[4/3] overflow-hidden rounded-lg group"
               >
+                 <Link href="/Productmenu">
                 <Image
                   src={category.image.asset.url || "/placeholder.png"} // Use a placeholder image if missing
                   alt={category.title || `Category Image ${index + 1}`}
@@ -82,6 +86,7 @@ export default async function ProductCategories() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-black/20 transition-opacity group-hover:opacity-0" />
+                </Link>
               </div>
             ))}
           </div>

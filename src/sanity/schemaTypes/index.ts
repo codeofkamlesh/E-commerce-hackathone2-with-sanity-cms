@@ -10,7 +10,7 @@ import Faq from './Faq';
 import { productSchema } from "./products";
 import { categorySchema } from "./categories";
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [  herosec,
+  types: [herosec,
 
 
     Singleproductpage,
@@ -20,6 +20,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     Faq,
 
     productSchema,
-    categorySchema,  ]
+    categorySchema,]
 
 }

@@ -16,3 +16,5 @@ const builder = imageUrlBuilder(client);
 
 // Specify the correct type for `source`
 export const urlFor = (source: SanityImageSource) => builder.image(source);
+
+

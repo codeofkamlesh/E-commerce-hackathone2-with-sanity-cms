@@ -7,7 +7,7 @@ import { client } from "@/sanity/lib/client";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { urlFor } from "@/sanity/lib/image";
-// import {Product} from "../../src/types/product";
+// import {Product} from "../app/types/products";
 import {
   Carousel,
   CarouselContent,
@@ -15,6 +15,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Link from "next/link";
 
 // Define interfaces for Sanity data
 export interface SanityImage {
@@ -31,7 +32,7 @@ export interface Category {
   image: SanityImage;
 }
 
-export interface Product {
+interface Product {
   _id: string;
   title: string;
   price: number;
@@ -48,7 +49,7 @@ export interface Product {
   slug: {
     _type: "slug";
     current: string;
-  };
+  } | null;  // Added null type for slug
 }
 
 export default function ProductGrid() {
@@ -77,7 +78,8 @@ export default function ProductGrid() {
           "imageUrl": image.asset->url,
           description,
           inventory,
-          tags
+          tags,
+          slug
         }`
       );
 
@@ -132,27 +134,44 @@ export default function ProductGrid() {
                 key={product._id}
                 className="group bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
               >
-                <div className="relative aspect-square overflow-hidden">
-                                {/* Update Image Component */}
-                                <Image
-                                  src={product.imageUrl}
-                                  alt={product.description}
-                                  width={400}  // Set a fixed width
-                                  height={400} // Set a fixed height to ensure equal size
-                                  className="object-cover"
-                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                                />
-                  {product.badge && (
-                    <Badge
-                      variant={
-                        product.badge === "New" ? "default" : "destructive"
-                      }
-                      className="absolute top-4 left-4 px-3 py-1 text-sm font-semibold"
-                    >
-                      {product.badge}
-                    </Badge>
-                  )}
-                </div>
+                {/* Conditionally render the Link based on availability of slug */}
+                {product.slug?.current ? (
+                  <Link href={`/product/${product.slug.current}`}>
+                    <div className="relative aspect-square overflow-hidden">
+                      {/* Update Image Component */}
+                      <Image
+                        src={product.imageUrl}
+                        alt={product.description}
+                        width={400} // Set a fixed width
+                        height={400} // Set a fixed height to ensure equal size
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      />
+                      {product.badge && (
+                        <Badge
+                          variant={
+                            product.badge === "New" ? "default" : "destructive"
+                          }
+                          className="absolute top-4 left-4 px-3 py-1 text-sm font-semibold"
+                        >
+                          {product.badge}
+                        </Badge>
+                      )}
+                    </div>
+                  </Link>
+                ) : (
+                  <div className="relative aspect-square overflow-hidden">
+                    <Image
+                      src={product.imageUrl}
+                      alt={product.description}
+                      width={400}
+                      height={400}
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    />
+                  </div>
+                )}
+
                 <div className="p-4">
                   <h3 className="text-black font-bold text-lg mb-2">
                     {product.description}

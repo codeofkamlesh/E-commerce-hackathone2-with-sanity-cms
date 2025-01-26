@@ -1,6 +1,7 @@
 import { client } from "@/sanity/lib/client"; // Import the Sanity client to fetch data
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image"; // Import the Sanity image helper for generating image URLs
+import Link from "next/link";
 
 // Define the TypeScript interface for a category
 interface Category {
@@ -51,6 +52,7 @@ export default async function FeaturedCategories() {
             className="relative w-full h-auto bg-white rounded-lg shadow-lg p-4"
           >
             {/* Image Section */}
+            <Link href="/Productmenu">
             <div className="w-full h-[312px] overflow-hidden rounded-md">
               <Image
                 className="w-full h-full object-cover"
@@ -72,6 +74,7 @@ export default async function FeaturedCategories() {
                 Available Quantity: {category.products || 0}
               </div>
             </div>
+            </Link>
           </div>
         ))}
       </div>

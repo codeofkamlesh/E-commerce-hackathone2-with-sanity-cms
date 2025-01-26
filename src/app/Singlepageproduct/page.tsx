@@ -5,6 +5,7 @@ import Image from "next/image";
 import { BsCartDash } from "react-icons/bs";
 import { client } from "@/sanity/lib/client"; // Adjust this path to your sanity client configuration
 import { useToast } from "@/hooks/use-toast"; // Ensure correct import for the shadcn toaster
+import Link from "next/link";
 
 // Product Interface
 interface Product {
@@ -126,9 +127,11 @@ const ProductCarousel: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-900 uppercase">
             Featured Products
           </h2>
+          <Link href="/Productmenu">
           <button className="text-lg font-bold text-gray-900 border-b-2 border-gray-900 mr-[10px] hover:text-teal-600 hover:border-teal-600 transition-colors">
             View all
           </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
