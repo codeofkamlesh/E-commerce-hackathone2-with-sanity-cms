@@ -14,7 +14,8 @@ export default async function Home() {
       <FeaturedProducts />
       <TopCategories />
       <HotCategories />
-      <ProductGrid />
+      <ProductGrid/>
+      
     </div>
   );
 }

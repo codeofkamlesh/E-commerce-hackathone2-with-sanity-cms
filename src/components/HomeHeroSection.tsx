@@ -1,6 +1,7 @@
 
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
+import Link from "next/link";
 
 
 export default async function Home() {
@@ -23,8 +24,9 @@ export default async function Home() {
           <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-[#272343] font-bold capitalize leading-tight mb-4 md:mb-6">
             <span className="block">{sanityData?.mainTitle || "No Title Found"}</span>
           </h1>
-          <button className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#029fae] text-white text-base md:text-lg font-semibold transition-colors hover:bg-[#027e8b] mx-auto lg:mx-0">
-            <span>Shop Now</span>
+          <Link href="/Product">
+          <button className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#029fae] text-white text-base md:text-lg font-semibold transition-colors hover:bg-[#ce4649] mx-auto lg:mx-0">
+            <span> Shop Now</span>
             <Image
               className="w-5 h-5 md:w-6 md:h-6"
               width={24}
@@ -33,6 +35,7 @@ export default async function Home() {
               src="/Rightarrow.png"
             />
           </button>
+          </Link>
         </div>
         <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
         {sanityData?.imageUrl && (

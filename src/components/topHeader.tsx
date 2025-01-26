@@ -17,16 +17,27 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const handleSearch = () => {
+    if (selectedCategory) {
+      // Redirect to the product page with the selected category
+      window.location.href = `/Product?category=${selectedCategory}`;
+    } else {
+      // Show an alert if no category is selected
+      alert("Please select a category!");
+    }
+  };
 
   return (
     <nav className="relative bg-white w-full h-auto flex flex-col items-start text-left text-xs text-white font-inter overflow-x-hidden">
       {/* Top Header */}
       <div className="w-full bg-[#3b3466] flex items-center justify-between p-2 md:p-[14px_10%] box-border">
-        <div className="flex items-center opacity-70 justify-between w-full flex-wrap">
+        <div className="flex items-center justify-between w-full flex-wrap">
           <div className="flex items-center gap-2 w-full md:w-auto justify-center md:justify-start mb-2 md:mb-0">
             <Image
               className="w-[16px] h-[16px] overflow-hidden flex-shrink-0"
@@ -39,7 +50,7 @@ const Navigation = () => {
               Free shipping on all orders over $50
             </div>
           </div>
-          <div className="flex items-center gap-4 md:gap-6 opacity-70 text-center justify-center w-full md:w-auto">
+          <div className="flex items-center gap-4 md:gap-6 text-center justify-center w-full md:w-auto">
             <div className="flex items-center gap-1">
               <div className="relative leading-[130%]">Eng</div>
               <Image
@@ -50,20 +61,10 @@ const Navigation = () => {
                 src="/Group.png"
               />
             </div>
-            <div className="hidden md:flex items-center gap-1">
-              <div className="relative leading-[130%]">USD</div>
-              <Image
-                className="w-[7px] h-[3.5px]"
-                width={7}
-                height={4}
-                alt="Currency dropdown"
-                src="/Group.png"
-              />
-            </div>
             <div className="relative leading-[130%]">
-              <Link href="/FAQ">Faqs</Link>
+              <Link href="/FAQ">FAQs</Link>
             </div>
-            <div className="flex items-start gap-1 opacity-70">
+            <div className="flex items-start gap-1">
               <LuCircleAlert className="w-[16px] h-[16px]" />
               <div className="relative leading-[130%]">Need Help</div>
             </div>
@@ -86,62 +87,60 @@ const Navigation = () => {
           </div>
         </div>
 
-       <div className="">
-    <Select >
-      <SelectTrigger className="w-[200px] bg-white hover:bg-teal-600 hover:!text-white ">
-        <SelectValue placeholder="Select category" />
-      </SelectTrigger >
-      <SelectContent>
-        <SelectGroup >
-
-        <SelectLabel className="!bg-[#3b3466] !text-white">Select Category</SelectLabel>
-
-          <SelectItem value="All" className="hover:!bg-teal-600 hover:!text-white">All</SelectItem>
-          <SelectItem value="lounge Chair" className="hover:!bg-teal-600 hover:!text-white">Lounge and Relaxation Chairs</SelectItem>
-          <SelectItem value="Dining Chair" className="hover:!bg-teal-600 hover:!text-white">Dining Chairs</SelectItem>
-          <SelectItem value="office Chair" className="hover:!bg-teal-600 hover:!text-white">Office Chairs</SelectItem>
-          <SelectItem value="outdoor Chair" className="hover:!bg-teal-600 hover:!text-white">Outdoor Chairs</SelectItem>
-          <SelectItem value="kids Chair" className="hover:!bg-teal-600 hover:!text-white">Kids Chairs</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-    </div>
-
-
-       <div className="">
-    <Select >
-      <SelectTrigger className="w-[350px] bg-white hover:bg-teal-600 hover:!text-white ">
-        <SelectValue placeholder="Select Product" />
-      </SelectTrigger >
-      <SelectContent >
-        <SelectGroup >
-        <SelectLabel className="!bg-[#3b3466] !text-white">Select Product</SelectLabel>
-          <SelectItem value="1" className="hover:!bg-teal-600 hover:!text-white">Zero Gravity Chairs</SelectItem>
-          <SelectItem value="2" className="hover:!bg-teal-600 hover:!text-white">Papasan Chairs</SelectItem>
-          <SelectItem value="3" className="hover:!bg-teal-600 hover:!text-white">Bean Bag Chairs</SelectItem>
-          <SelectItem value="4" className="hover:!bg-teal-600 hover:!text-white">Hanging Egg Chairs</SelectItem>
-          <SelectItem value="5" className="hover:!bg-teal-600 hover:!text-white">Wooden Dining Chairs</SelectItem>
-          <SelectItem value="6" className="hover:!bg-teal-600 hover:!text-white">Metal Dining Chairs</SelectItem>
-          <SelectItem value="7" className="hover:!bg-teal-600 hover:!text-white">Plastic Dining Chairs</SelectItem>
-          <SelectItem value="8" className="hover:!bg-teal-600 hover:!text-white">Ladder Back Chairs</SelectItem>
-          <SelectItem value="9" className="hover:!bg-teal-600 hover:!text-white">Executive Chairs</SelectItem>
-          <SelectItem value="10" className="hover:!bg-teal-600 hover:!text-white">Task Chairs</SelectItem>
-          <SelectItem value="11" className="hover:!bg-teal-600 hover:!text-white">Conference Chairs</SelectItem>
-          <SelectItem value="12" className="hover:!bg-teal-600 hover:!text-white">Gaming Chairs</SelectItem>
-          <SelectItem value="13" className="hover:!bg-teal-600 hover:!text-white">Adirondack Chairs</SelectItem>
-          <SelectItem value="14" className="hover:!bg-teal-600 hover:!text-white">Patio Chairs</SelectItem>
-          <SelectItem value="15" className="hover:!bg-teal-600 hover:!text-white">Hammock Chairs</SelectItem>
-          <SelectItem value="16" className="hover:!bg-teal-600 hover:!text-white">Deck Chairs</SelectItem>
-          <SelectItem value="17" className="hover:!bg-teal-600 hover:!text-white">Bean Bag Chairs</SelectItem>
-          <SelectItem value="18" className="hover:!bg-teal-600 hover:!text-white">Rocking Chairs for Kids</SelectItem>
-          <SelectItem value="19" className="hover:!bg-teal-600 hover:!text-white">Toddler Chairs</SelectItem>
-          <SelectItem value="20" className="hover:!bg-teal-600 hover:!text-white">Booster Seats</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-    </div>
-
-    <Button className="bg-teal-600 hover:bg-teal-700 hover:text-white">Search</Button>
+        {/* Search Bar */}
+        <div className="flex gap-2">
+          <Select onValueChange={(value) => setSelectedCategory(value)}>
+            <SelectTrigger className="w-[200px] bg-white hover:bg-[#3b3466] hover:!text-white">
+              <SelectValue placeholder="Select category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel className="!w-[300px] !text-white bg-[#3b3466] hover:!text-white">
+                  Select Category
+                </SelectLabel>
+                <SelectItem value="All" className="hover:!bg-teal-600 hover:!text-white">
+                  All
+                </SelectItem>
+                <SelectItem
+                  value="lounge Chair"
+                  className="hover:!bg-teal-600 hover:!text-white"
+                >
+                  Lounge and Relaxation Chairs
+                </SelectItem>
+                <SelectItem
+                  value="Dining Chair"
+                  className="hover:!bg-teal-600 hover:!text-white"
+                >
+                  Dining Chairs
+                </SelectItem>
+                <SelectItem
+                  value="office Chair"
+                  className="hover:!bg-teal-600 hover:!text-white"
+                >
+                  Office Chairs
+                </SelectItem>
+                <SelectItem
+                  value="outdoor Chair"
+                  className="hover:!bg-teal-600 hover:!text-white"
+                >
+                  Outdoor Chairs
+                </SelectItem>
+                <SelectItem
+                  value="kids Chair"
+                  className="hover:!bg-teal-600 hover:!text-white"
+                >
+                  Kids Chairs
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Button
+            onClick={handleSearch}
+            className="bg-teal-600 hover:bg-[#ce4649] hover:text-white"
+          >
+            Search
+          </Button>
+        </div>
 
         <div className="flex items-center gap-3 text-xs">
           <div className="bg-white rounded-xl p-[11px_16px] flex items-center gap-3 text-black">
@@ -164,7 +163,6 @@ const Navigation = () => {
       {/* Navigation Menu */}
       <div className="w-full shadow-[0_1px_0px_#e1e3e5] bg-white h-auto md:h-[74px] flex flex-col md:flex-row items-start md:items-center justify-between p-4 md:p-[14px_10%] box-border text-xs text-[#636270]">
         <div className="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
-          <div className="relative leading-[110%] text-[#007580] capitalize font-medium md:hidden"></div>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="text-[#272343] md:hidden"
@@ -177,32 +175,26 @@ const Navigation = () => {
             isMenuOpen ? "block" : "hidden md:flex"
           }`}
         >
-          <div className="relative leading-[110%] text-[#007580] capitalize font-medium">
+          <div className="relative leading-[110%] hover:text-[#ce4649] hover:underline capitalize font-semibold text-[15px]">
             <Link href="/">Home</Link>
           </div>
-          <div className="relative leading-[110%] capitalize font-medium">
-            <Link href="/shop">Shop</Link>
+          <div className="relative leading-[110%] hover:text-[#ce4649] hover:underline capitalize font-semibold text-[15px]">
+            <Link href="/Product">Products</Link>
           </div>
-          <div className="relative leading-[110%] capitalize font-medium">
-            <Link href="/Product">Product</Link>
-          </div>
-          <div className="relative leading-[110%] capitalize font-medium">
+          <div className="relative leading-[110%] hover:text-[#ce4649] hover:underline capitalize font-semibold text-[15px]">
             <Link href="/Singlepageproduct">Pages</Link>
           </div>
-          <div className="relative leading-[110%] capitalize font-medium">
+          <div className="relative leading-[110%] hover:text-[#ce4649] hover:underline capitalize font-semibold text-[15px]">
             <Link href="/About">About</Link>
           </div>
-          <div className="relative leading-[110%] capitalize font-medium md:hidden">
-            <Link href="/ContactUs">Contact Us</Link>
-          </div>
+
         </div>
         <div className="hidden md:flex items-start gap-2">
-          <div className="relative leading-[110%] capitalize font-medium">
-            <Link href="/ContactUs">Contact Us</Link>
-          </div>
-          <div className="relative leading-[110%] capitalize font-medium text-[#272343]">
-            (808) 555-0111
-          </div>
+        <Link href="/ContactUs">
+          <Button className="bg-teal-600 hover:bg-[#ce4649] hover:text-white">
+            Contact Us
+          </Button>
+          </Link>
         </div>
       </div>
     </nav>

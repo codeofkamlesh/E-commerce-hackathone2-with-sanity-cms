@@ -2,11 +2,9 @@ import { client } from "@/sanity/lib/client"; // Import the Sanity client to fet
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image"; // Import the Sanity image helper for generating image URLs
 
-// Define the TypeScript interface for a product
-interface Product {
-  productDescription: string;
-  oldPrice?: number;
-  newPrice: number;
+// Define the TypeScript interface for a category
+interface Category {
+  title: string;
   image: {
     _type: string;
     asset: {
@@ -14,87 +12,66 @@ interface Product {
       _type: string;
     };
   };
-  badge?: string;
+  products: number;
 }
 
-// Define the TypeScript interface for the data fetched from Sanity
-interface HomeSectionData {
-  Title_HomeSection1: string;
-  products: Product[];
-}
-
-export default async function FeaturedProducts() {
-  // GROQ Query to fetch the Featured Products section data
-  const query = `*[_type == "HomeSection1"][0] {
-    Title_HomeSection1,
-    products[] {
-      productDescription,
-      oldPrice,
-      newPrice,
-      image,
-      badge
-    }
+export default async function FeaturedCategories() {
+  // GROQ Query to fetch the Categories data
+  const query = `*[_type == "categories"] {
+    title,
+    image,
+    products
   }`;
 
-  const data: HomeSectionData | null = await client.fetch(query); // Fetch data from Sanity
+  let data: Category[] | null = null;
+
+  try {
+    data = await client.fetch(query); // Fetch data from Sanity
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+
+  // Use slice to get specific categories (e.g., products 5 to 8)
+  const selectedCategories = data?.slice(0, 4); // Adjust the indices as per your requirements
 
   return (
     <div className="flex flex-col items-center px-10">
       {/* Heading Section */}
       <div className="flex justify-between w-full px-12 items-center">
         <div className="text-2xl font-semibold capitalize">
-          {data?.Title_HomeSection1 || "Featured Products"}
+          Featured Categories
         </div>
       </div>
 
-      {/* Products Section */}
+      {/* Categories Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-y-32">
-        {data?.products?.map((product, index) => (
+        {selectedCategories?.map((category, index) => (
           <div
             key={index}
             className="relative w-full h-auto bg-white rounded-lg shadow-lg p-4"
           >
             {/* Image Section */}
-            <Image
-              className="rounded-md"
-              width={312}
-              height={312}
-              alt={`Product Image ${index + 1}`}
-              src={product.image ? urlFor(product.image).url() : "/default-image.png"} // Use image URL from Sanity or fallback
-            />
-            <div className="flex flex-col mt-4 cursor-pointer">
+            <div className="w-full h-[312px] overflow-hidden rounded-md">
+              <Image
+                className="w-full h-full object-cover"
+                width={312}
+                height={312}
+                alt={`Category Image ${index + 1}`}
+                src={
+                  category.image
+                    ? urlFor(category.image).url()
+                    : "/default-image.png"
+                } // Use image URL from Sanity or fallback
+              />
+            </div>
+            <div className="flex flex-col mt-4">
               <div className="text-lg font-medium capitalize text-[#557580]">
-                {product.productDescription || "No Description"}
+                {category.title || "No Title"}
               </div>
-              <div className="flex items-center gap-2 mt-2">
-                <div className="text-xl font-bold text-gray-800">
-                  ${product.newPrice || "0"}
-                </div>
-                {product.oldPrice && (
-                  <div className="text-sm line-through text-gray-400">
-                    ${product.oldPrice}
-                  </div>
-                )}
+              <div className="text-sm text-gray-600 mt-2">
+                Available Quantity: {category.products || 0}
               </div>
             </div>
-            <button
-              className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10
-                ${index === 0 ? "bg-[#029fae] text-white" : "bg-gray-300 text-black"}
-                rounded-sm shadow-md`}
-              aria-label="Add to Cart"
-            >
-              <Image width={24} height={24} alt="Add to Cart" src="/addCart.png" />
-            </button>
-
-            {/* Show badge */}
-            {product.badge && (
-              <div
-                className={`absolute top-6 left-6 px-3 py-1 text-white rounded-md text-sm
-                ${product.badge === "New" ? "bg-green-500" : "bg-[#f5813f]"}`}
-              >
-                {product.badge}
-              </div>
-            )}
           </div>
         ))}
       </div>

@@ -2,63 +2,57 @@ import { client } from "@/sanity/lib/client"; // Import the Sanity client
 import Image from "next/image";
 import Link from "next/link";
 
-interface Product {
-  productDescription: string;
-  productQuantity: number;
+// Interface for Category data
+interface Category {
+  title: string;
   image?: { asset?: { url?: string } };
-  href?: string;
-}
-
-interface SectionData {
-  Title_HomeSection2: string;
-  products: Product[];
+  products: number;
 }
 
 export default async function HomeSection2() {
-  // GROQ Query to fetch data based on the schema
-  const query = `*[_type == "HomeSection2"][0] {
-    Title_HomeSection2,
-    products[] {
-      productDescription,
-      productQuantity,
-      image {
-        asset -> {
-          url
-        }
-      },
-      href
-    }
+  // GROQ Query to fetch all categories data
+  const query = `*[_type == "categories"] {
+    title,
+    image {
+      asset -> {
+        url
+      }
+    },
+    products
   }`;
 
-  let sectionData: SectionData | null = null;
+  let categories: Category[] | null = null;
 
   try {
-    sectionData = await client.fetch(query); // Fetch data from Sanity
+    categories = await client.fetch(query); // Fetch data from Sanity
   } catch (error) {
     console.error("Error fetching data:", error);
   }
+
+  // Slice to get products 5 to 8
+  const selectedCategories = categories?.slice(5, 8); // JavaScript arrays are 0-indexed
 
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         {/* Section Title */}
         <h2 className="text-3xl font-bold text-left mb-12 text-black">
-          {sectionData?.Title_HomeSection2 || "No Title Found"}
+          Top Categories
         </h2>
 
-        {/* Products Section */}
+        {/* Categories Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sectionData?.products?.length ? (
-            sectionData.products.map((product, index) => (
+          {selectedCategories?.length ? (
+            selectedCategories.map((category, index) => (
               <Link
                 key={index}
-                href={product.href || "#"}
+                href="#"
                 className="group relative overflow-hidden rounded-lg aspect-[4/3] transition-all duration-300 ease-in-out"
               >
                 {/* Image Section */}
                 <Image
-                  src={product.image?.asset?.url || "/default-image.png"} // Fallback if image is not found
-                  alt={product.productDescription || "No description available"}
+                  src={category.image?.asset?.url || "/default-image.png"} // Fallback if image is not found
+                  alt={category.title || "No title available"}
                   layout="fill"
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
@@ -66,17 +60,17 @@ export default async function HomeSection2() {
                 {/* Description Section */}
                 <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4">
                   <h3 className="text-xl font-semibold text-white">
-                    {product.productDescription || "No Description"}
+                    {category.title || "No Title"}
                   </h3>
                   <p className="text-sm text-gray-200">
                     Available Quantity:{" "}
-                    {product.productQuantity?.toLocaleString() || "N/A"}
+                    {category.products?.toLocaleString() || "N/A"}
                   </p>
                 </div>
               </Link>
             ))
           ) : (
-            <p>No data available</p>
+            <p>No categories available</p>
           )}
         </div>
       </div>

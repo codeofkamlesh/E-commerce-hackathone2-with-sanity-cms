@@ -6,25 +6,17 @@ import { ShoppingCart } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { urlFor } from "@/sanity/lib/image";
-
-// Define a type for the Sanity image field
-interface SanityImage {
-  _type: string;
-  asset: {
-    _ref: string;
-    _type: string;
-  };
-}
 
 // Define the Product interface
 interface Product {
   _id: string;
-  productDescription: string;
-  newPrice: number;
-  oldPrice?: number;
-  image: SanityImage; // Replace 'any' with the SanityImage type
+  description: string;
+  price: number;
+  priceWithoutDiscount?: number;
+  imageUrl: string;
   badge?: string;
+  inventory: number;
+  tags: string[];
 }
 
 export default function ProductGrid() {
@@ -34,20 +26,21 @@ export default function ProductGrid() {
   useEffect(() => {
     const fetchProducts = async () => {
       const data = await client.fetch(
-        `*[_type == "HomeSection4"][0]{
+        `*[_type == "products"]{
           title,
-          products[]{
-            _id,
-            productDescription,
-            newPrice,
-            oldPrice,
-            image,
-            badge
-          }
+          price,
+          priceWithoutDiscount,
+          badge,
+          "imageUrl": image.asset->url,
+          description,
+          inventory,
+          tags
         }`
       );
+
       setSectionTitle(data.title || "Our Products");
-      setProducts(data.products || []);
+      // Apply the slice method here
+      setProducts(data?.slice(0, 8) || []); // Show only the first 8 products
     };
 
     fetchProducts();
@@ -71,8 +64,8 @@ export default function ProductGrid() {
             >
               <div className="relative aspect-square">
                 <Image
-                  src={urlFor(product.image).url()}
-                  alt={product.productDescription}
+                  src={product.imageUrl}
+                  alt={product.description}
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
@@ -90,16 +83,16 @@ export default function ProductGrid() {
               </div>
               <div className="p-4">
                 <h3 className="text-black font-bold text-lg mb-2">
-                  {product.productDescription}
+                  {product.description}
                 </h3>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-black font-bold text-xl">
-                      ${product.newPrice}
+                      ${product.price}
                     </span>
-                    {product.oldPrice && (
+                    {product.priceWithoutDiscount && (
                       <span className="text-gray-400 line-through">
-                        ${product.oldPrice}
+                        ${product.priceWithoutDiscount}
                       </span>
                     )}
                   </div>
