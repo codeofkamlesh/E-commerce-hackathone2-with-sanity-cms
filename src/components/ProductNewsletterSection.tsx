@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { client } from "@/sanity/lib/client";
+import { toast } from "@/hooks/use-toast";
 
 // Define the types according to your schema
 interface Product {
@@ -49,8 +50,14 @@ const NewsletterInstagram: NextPage = () => {
               className="w-full py-2 px-3 text-lg border-b-2 border-black focus:outline-none bg-transparent"
             />
           </div>
-          <button className="bg-transparent text-[#1e2832] border-b-2 border-[#1e2832] py-2 px-4 text-lg font-medium hover:bg-[#1e2832] hover:text-white transition-colors duration-300">
-            SUBMIT
+          <button
+           onClick={() => {
+            toast({
+              description: "You have successfully subscribed.",
+            });
+          }}
+          className="bg-transparent text-[#1e2832] border-b-2 border-[#1e2832] py-2 px-4 text-lg font-medium hover:bg-[#1e2832] hover:text-white transition-colors duration-300">
+            Subscribe
           </button>
         </div>
       </div>

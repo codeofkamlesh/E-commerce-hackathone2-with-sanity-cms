@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import {
@@ -8,14 +10,15 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { FaPaypal, FaCcVisa, FaCcMastercard, FaCcAmex } from "react-icons/fa";
+import { toast } from "@/hooks/use-toast";
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-200 px-4  sm:px-12 md:px-28">
+    <footer className="bg-white border-t border-gray-200 px-4 sm:px-12 md:px-28">
       <div className="mx-auto py-12">
         <div className="flex flex-wrap justify-between gap-2">
           {/* Brand Section */}
-          <div className="flex flex-col w-full  md:w-[320px] items-start">
+          <div className="flex flex-col w-full md:w-[320px] items-start">
             <div className="flex items-center gap-2">
               <Image
                 src="/Logo Icon.jpg"
@@ -109,7 +112,7 @@ export default function Footer() {
                   href="#"
                   className="hover:text-[#007580] hover:underline hover:underline-offset-4"
                 >
-                  utdoor Chairs
+                  Outdoor Chairs
                 </a>
               </li>
               <li>
@@ -120,7 +123,6 @@ export default function Footer() {
                   Kids Chairs
                 </a>
               </li>
-             
             </ul>
           </div>
 
@@ -172,7 +174,14 @@ export default function Footer() {
                 placeholder="Your email"
                 className="px-4 py-2 w-full border text-[#9A9CAA] border-gray-300 rounded-l-md focus:outline-none"
               />
-              <button className="bg-[#029FAE] text-white px-6 py-2 rounded-md hover:bg-teal-700">
+              <button
+                onClick={() => {
+                  toast({
+                    description: "You have successfully subscribed.",
+                  });
+                }}
+                className="bg-[#029FAE] text-white px-6 py-2 rounded-md hover:bg-teal-700"
+              >
                 Subscribe
               </button>
             </div>

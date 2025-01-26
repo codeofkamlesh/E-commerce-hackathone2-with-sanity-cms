@@ -8,6 +8,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { Product } from "../app/types/products";
+import { toast } from "@/hooks/use-toast";
 
 export default function ProductGrid() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -90,14 +91,23 @@ export default function ProductGrid() {
                       )}
                     </div>
                     <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() => handleAddToCart(product._id)}
-                      className="bg-transparent hover:bg-blue-500 text-black px-4 py-2 rounded transition-all"
-                    >
-                      <ShoppingCart className="h-5 w-5" />
-                      <span className="sr-only">Add to cart</span>
-                    </Button>
+                        size="icon"
+                        variant="outline"
+                        onClick={() => {
+                          // Show toast notification
+
+                          toast({
+                            description: "Your Product is added to the Cart.",
+                          });
+                          // Call the handleAddToCart function
+                          handleAddToCart(product._id);
+                        }}
+                        className="bg-transparent hover:bg-blue-500 text-black px-4 py-2 rounded transition-all"
+                      >
+                        <ShoppingCart className="h-5 w-5" />
+                        <span className="sr-only">Add to cart</span>
+                      </Button>
+
                   </div>
                 </div>
 

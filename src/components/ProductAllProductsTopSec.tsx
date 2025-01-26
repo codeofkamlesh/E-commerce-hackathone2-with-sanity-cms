@@ -16,6 +16,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Link from "next/link";
+import { toast } from "@/hooks/use-toast";
 
 // Define interfaces for Sanity data
 export interface SanityImage {
@@ -188,14 +189,23 @@ export default function ProductGrid() {
                       )}
                     </div>
                     <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() => handleAddToCart(product._id)}
-                      className="bg-transparent hover:bg-blue-500 text-black px-4 py-2 rounded transition-all"
-                    >
-                      <ShoppingCart className="h-5 w-5" />
-                      <span className="sr-only">Add to cart</span>
-                    </Button>
+                        size="icon"
+                        variant="outline"
+                        onClick={() => {
+                          // Show toast notification
+
+                          toast({
+                            description: "Your Product is added to the Cart.",
+                          });
+                          // Call the handleAddToCart function
+                          handleAddToCart(product._id);
+                        }}
+                        className="bg-transparent hover:bg-blue-500 text-black px-4 py-2 rounded transition-all"
+                      >
+                        <ShoppingCart className="h-5 w-5" />
+                        <span className="sr-only">Add to cart</span>
+                      </Button>
+
                   </div>
                 </div>
               </div>
