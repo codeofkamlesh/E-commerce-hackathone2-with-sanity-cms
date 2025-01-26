@@ -127,14 +127,16 @@ export default function ProductGrid() {
                 key={product._id}
                 className="group bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
               >
-                <div className="relative aspect-square">
-                  <Image
-                    src={product.imageUrl} // Correctly using imageUrl from the query
-                    alt={product.description}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  />
+                <div className="relative aspect-square overflow-hidden">
+                                {/* Update Image Component */}
+                                <Image
+                                  src={product.imageUrl}
+                                  alt={product.description}
+                                  width={400}  // Set a fixed width
+                                  height={400} // Set a fixed height to ensure equal size
+                                  className="object-cover"
+                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                />
                   {product.badge && (
                     <Badge
                       variant={

@@ -97,7 +97,7 @@ const ProductCarousel: React.FC = () => {
             <p className="text-gray-600">{featuredProduct.description}</p>
             <button
               onClick={() => {
-                toast({ 
+                toast({
                   description: "Your Product is added to the Cart.",
                 });
               }}
@@ -124,15 +124,18 @@ const ProductCarousel: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {featuredProducts.map((product, index) => (
             <div key={index} className="flex flex-col">
-              <div className="relative aspect-square mb-2">
+            <div className="relative w-[250px] h-[250px] mb-2 overflow-hidden ">
                 <Image
                   className="rounded-md object-cover"
-                  fill
+                  width={300}  // Fixed width
+                  height={300} // Fixed height to make the images square
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   alt={product.altText || product.name}
                   src={product.image.asset.url}
                 />
               </div>
+
+
               <div className="flex justify-between items-center">
                 <p className="text-sm capitalize">{product.name}</p>
                 <b className="text-sm text-black">${product.price}</b>

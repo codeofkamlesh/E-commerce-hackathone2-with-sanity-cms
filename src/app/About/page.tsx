@@ -108,7 +108,7 @@ const About = () => {
             </button>
           </div>
         </div>
-        <div className="w-full md:w-[619px] h-auto md:h-[478px] mt-6 md:mt-0 md:ml-6">
+        <div className="w-full md:w-[619px] h-auto md:h-[478px] mt-6 md:mt-0 md:ml-6 overflow-hidden">
           <Image
             src={aboutUsData.aboutUsSection.image.asset.url}
             alt="Comforty Image"
@@ -150,7 +150,7 @@ const About = () => {
         <h2 className="text-[32px] font-semibold text-left mb-12">
           Our Popular Products
         </h2>
-        <div className="flex flex-col sm:flex-row lg:flex-row justify-between gap-8">
+        <div className="flex flex-col sm:flex-row lg:flex-row justify-between gap-8  ">
           {aboutUsData.popularProducts.map((product, index) => (
             <div key={index} className="text-center">
               <Image
@@ -158,7 +158,7 @@ const About = () => {
                 alt={product.name}
                 width={590}
                 height={375}
-                className="object-cover mx-auto"
+                className="object-cover mx-auto aspect-square overflow-hidden"
               />
               <div className="flex justify-between">
                 <p className="pt-2 text-[20px] font-normal text-left ">
