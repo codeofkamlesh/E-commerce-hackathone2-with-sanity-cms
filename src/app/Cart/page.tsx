@@ -1,98 +1,88 @@
-import React from "react";
-import Image from "next/image";
-import { FaHeart, FaTrashAlt } from "react-icons/fa";
-
-// Props ke liye type define karna
-type CartItemProps = {
-  imageSrc: string;
-  title: string;
-  description: string;
-  size: string;
-  quantity: number;
-  price: number;
-};
-
-const CartItem: React.FC<CartItemProps> = ({
-  imageSrc,
-  title,
-  description,
-  size,
-  quantity,
-  price,
-}) => (
-  <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-4 border-b border-gray-200">
-    <Image
-      src={imageSrc}
-      alt={title}
-      width={120}
-      height={120}
-      className="rounded-md object-cover"
-    />
-    <div className="flex-grow space-y-2 text-center sm:text-left">
-      <h3 className="font-semibold">{title}</h3>
-      <p className="text-sm text-gray-600">{description}</p>
-      <p className="text-sm">
-        Size: {size} &nbsp; Quantity: {quantity}
-      </p>
-    </div>
-    <div className="flex sm:flex-col justify-between items-center sm:items-end space-x-4 sm:space-x-0 sm:space-y-2">
-      <div className="flex space-x-2">
-        <button className="text-gray-500 hover:text-gray-700">
-          <FaHeart />
-        </button>
-        <button className="text-gray-500 hover:text-gray-700">
-          <FaTrashAlt />
-        </button>
-      </div>
-      <div className="font-semibold">MRP: ${price}</div>
-    </div>
-  </div>
-);
+"use client";
+import { getCart, updateQuantity, removeFromCart } from "../../Utils/cartUtils";
+import { useEffect, useState } from "react";
 
 const Cart = () => {
+  const [cart, setCart] = useState(getCart());
+
+  useEffect(() => {
+    setCart(getCart());
+  }, []);
+
+  const handleQuantityChange = (productId: string, quantity: number) => {
+    if (quantity > 0) {
+      const updatedCart = updateQuantity(productId, quantity);
+      setCart(updatedCart);
+    }
+  };
+
+  const handleRemoveItem = (productId: string) => {
+    const updatedCart = removeFromCart(productId);
+    setCart(updatedCart);
+  };
+
+  const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col lg:flex-row gap-8">
-        <div className="w-full lg:w-2/3 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold p-4 border-b border-gray-200">
-            Bag
-          </h2>
-          <CartItem
-            imageSrc="/orchair.jpg"
-            title="Library Stool Chair"
-            description="Ashen Slate/Cobalt Bliss"
-            size="L"
-            quantity={1}
-            price={99}
-          />
-          <CartItem
-            imageSrc="/Frame.jpg"
-            title="Library Stool Chair"
-            description="Ashen Slate/Cobalt Bliss"
-            size="L"
-            quantity={1}
-            price={99}
-          />
+    <div className="flex justify-center p-5 gap-5 w-full">
+      <div className="flex w-full flex-wrap">
+        {/* Bag Section */}
+        <div className="flex-3 p-5 w-3/4 h-full mt-5 mb-5 bg-white rounded-lg">
+          <h2 className="text-2xl font-bold mb-5">Shopping Bag</h2>
+          {cart.length === 0 ? (
+            <p>Your cart is empty!</p>
+          ) : (
+            cart.map((item) => (
+              <div
+                key={item.productId}
+                className="flex flex-wrap justify-between bg-white text-black mb-5 p-5 rounded-lg gap-5"
+              >
+                <img
+                  src={item.imageUrl} // Ensure `imageUrl` exists in your product data
+                  alt={item.title}
+                  className="w-32 h-32 rounded-lg"
+                />
+                <div className="flex-grow ml-5">
+                  <h3 className="text-lg text-gray-800 font-semibold">{item.title}</h3>
+                  <p className="text-gray-600">Price: ${item.price.toFixed(2)}</p>
+                  <p className="text-gray-600">
+                    Total: ${(item.price * item.quantity).toFixed(2)}
+                  </p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <input
+                    type="number"
+                    value={item.quantity}
+                    onChange={(e) =>
+                      handleQuantityChange(item.productId, parseInt(e.target.value))
+                    }
+                    className="w-16 border rounded px-2 py-1"
+                  />
+                  <button
+                    onClick={() => handleRemoveItem(item.productId)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
-        <div className="w-full lg:w-1/3 bg-white rounded-lg shadow-md p-4 h-fit">
-          <h2 className="text-2xl font-bold mb-4">Summary</h2>
-          <div className="space-y-2 mb-4">
-            <div className="flex justify-between">
-              <span>Subtotal</span>
-              <span>$198.00</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Estimated Delivery & Handling</span>
-              <span>Free</span>
-            </div>
-          </div>
-          <hr className="my-4" />
-          <div className="flex justify-between font-bold text-lg mb-4">
-            <span>Total</span>
-            <span>$198.00</span>
-          </div>
-          <button className="w-full bg-black text-white py-3 rounded-md hover:bg-gray-800 transition-colors">
-            Member Checkout
+
+        {/* Summary Section */}
+        <div className="flex-1 w-1/4 text-black p-5 bg-gray-100 rounded-lg">
+          <h2 className="text-2xl font-bold mb-5">Order Summary</h2>
+          <p className="flex justify-between mb-2">
+            <span>Subtotal:</span>
+            <span>${subtotal.toFixed(2)}</span>
+          </p>
+          <p className="flex justify-between text-lg font-bold">
+            <span>Total:</span>
+            <span>${subtotal.toFixed(2)}</span>
+          </p>
+          <button className="w-full py-3 mt-4 bg-teal-500 text-white rounded-full text-lg hover:bg-teal-600">
+            Checkout
           </button>
         </div>
       </div>

@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { Product } from "../app/types/products";
 import { toast } from "@/hooks/use-toast";
+import { addToCart } from "../Utils/cartUtils";
 
 export default function ProductGrid() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -38,8 +39,30 @@ export default function ProductGrid() {
     fetchProducts();
   }, []);
 
-  const handleAddToCart = (productId: string) => {
-    console.log(`Added product ${productId} to cart`);
+  const handleAddToCart = (product: Product) => {
+    if (product.inventory <= 0) {
+      toast({
+        description: "Sorry, this product is out of stock.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const cartItem = {
+      productId: product._id,
+      title: product.title,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      quantity: 1,
+    };
+
+    // Add product to cart
+    addToCart(cartItem);
+
+    // Show toast notification
+    toast({
+      description: "Your Product is added to the Cart.",
+    });
   };
 
   return (
@@ -74,43 +97,33 @@ export default function ProductGrid() {
                     </Badge>
                   )}
                 </div>
-                </Link>
-                <div className="p-4">
-                  <h3 className="text-black font-bold text-lg mb-2">
-                    {product.title}
-                  </h3>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-black font-bold text-xl">
-                        ${product.price}
+              </Link>
+              <div className="p-4">
+                <h3 className="text-black font-bold text-lg mb-2">
+                  {product.title}
+                </h3>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-black font-bold text-xl">
+                      ${product.price}
+                    </span>
+                    {product.priceWithoutDiscount && (
+                      <span className="text-gray-400 line-through">
+                        ${product.priceWithoutDiscount}
                       </span>
-                      {product.priceWithoutDiscount && (
-                        <span className="text-gray-400 line-through">
-                          ${product.priceWithoutDiscount}
-                        </span>
-                      )}
-                    </div>
-                    <Button
-                        size="icon"
-                        variant="outline"
-                        onClick={() => {
-                          // Show toast notification
-
-                          toast({
-                            description: "Your Product is added to the Cart.",
-                          });
-                          // Call the handleAddToCart function
-                          handleAddToCart(product._id);
-                        }}
-                        className="bg-transparent hover:bg-blue-500 text-black px-4 py-2 rounded transition-all"
-                      >
-                        <ShoppingCart className="h-5 w-5" />
-                        <span className="sr-only">Add to cart</span>
-                      </Button>
-
+                    )}
                   </div>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={() => handleAddToCart(product)}
+                    className="bg-transparent hover:bg-blue-500 text-black px-4 py-2 rounded transition-all"
+                  >
+                    <ShoppingCart className="h-5 w-5" />
+                    <span className="sr-only">Add to cart</span>
+                  </Button>
                 </div>
-
+              </div>
             </div>
           ))}
         </div>

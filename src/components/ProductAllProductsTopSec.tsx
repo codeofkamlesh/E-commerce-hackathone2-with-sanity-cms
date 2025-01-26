@@ -1,22 +1,15 @@
 "use client";
-
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { urlFor } from "@/sanity/lib/image";
-// import {Product} from "../app/types/products";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Link from "next/link";
 import { toast } from "@/hooks/use-toast";
+import { addToCart } from "@/Utils/cartUtils"; // Import the updated function
+import Image from "next/image";
 
 // Define interfaces for Sanity data
 export interface SanityImage {
@@ -50,7 +43,7 @@ interface Product {
   slug: {
     _type: "slug";
     current: string;
-  } | null;  // Added null type for slug
+  } | null; // Added null type for slug
 }
 
 export default function ProductGrid() {
@@ -60,7 +53,6 @@ export default function ProductGrid() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch categories
       const categoryData: Category[] = await client.fetch(
         `*[_type == "categories"]{
           _id,
@@ -69,7 +61,6 @@ export default function ProductGrid() {
         }`
       );
 
-      // Fetch products based on the updated GROQ query
       const productData = await client.fetch(
         `*[_type == "products"]{
           title,
@@ -139,7 +130,6 @@ export default function ProductGrid() {
                 {product.slug?.current ? (
                   <Link href={`/product/${product.slug.current}`}>
                     <div className="relative aspect-square overflow-hidden">
-                      {/* Update Image Component */}
                       <Image
                         src={product.imageUrl}
                         alt={product.description}
@@ -189,23 +179,43 @@ export default function ProductGrid() {
                       )}
                     </div>
                     <Button
-                        size="icon"
-                        variant="outline"
-                        onClick={() => {
-                          // Show toast notification
-
+                      size="icon"
+                      variant="outline"
+                      onClick={() => {
+                        // Check if the product is in stock
+                        if (product.inventory <= 0) {
                           toast({
-                            description: "Your Product is added to the Cart.",
+                            description: "Sorry, this product is out of stock.",
+                            variant: "destructive",
                           });
-                          // Call the handleAddToCart function
-                          handleAddToCart(product._id);
-                        }}
-                        className="bg-transparent hover:bg-blue-500 text-black px-4 py-2 rounded transition-all"
-                      >
-                        <ShoppingCart className="h-5 w-5" />
-                        <span className="sr-only">Add to cart</span>
-                      </Button>
+                          return;
+                        }
 
+                        // Prepare the cart item object
+                        const cartItem = {
+                          productId: product._id,
+                          title: product.title,
+                          price: product.price,
+                          imageUrl: product.imageUrl,
+                          quantity: 1,
+                        };
+
+                        // Add product to cart
+                        addToCart(cartItem);
+
+                        // Show success notification
+                        toast({
+                          description: "Your Product is added to the Cart.",
+                        });
+
+                        // Call the existing handler
+                        handleAddToCart(product._id);
+                      }}
+                      className="bg-transparent hover:bg-blue-500 text-black px-4 py-2 rounded transition-all"
+                    >
+                      <ShoppingCart className="h-5 w-5" />
+                      <span className="sr-only">Add to cart</span>
+                    </Button>
                   </div>
                 </div>
               </div>

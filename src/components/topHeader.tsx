@@ -22,6 +22,7 @@ import {
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [cartItems, setCartItems] = useState(2); // State to manage cart item count
 
   const handleSearch = () => {
     if (selectedCategory) {
@@ -31,6 +32,16 @@ const Navigation = () => {
       // Show an alert if no category is selected
       alert("Please select a category!");
     }
+  };
+
+  const handleAddToCart = () => {
+    // Example of updating cart items; this would ideally come from your API or state management
+    setCartItems((prev) => prev + 1);
+  };
+
+  const handleRemoveFromCart = () => {
+    // Example of removing an item; ensuring cart count doesn't drop below 0
+    setCartItems((prev) => (prev > 0 ? prev - 1 : 0));
   };
 
   return (
@@ -153,7 +164,7 @@ const Navigation = () => {
             <div className="relative w-[20px] h-[20px] text-xs font-dm-sans text-white">
               <div className="absolute top-0 left-0 rounded-full bg-[#007580] w-[20px] h-[20px]" />
               <div className="absolute top-[5px] left-[7px] leading-[100%] capitalize font-medium">
-                <Link href="/Cart">2</Link>
+                {cartItems}
               </div>
             </div>
           </div>
@@ -187,13 +198,12 @@ const Navigation = () => {
           <div className="relative leading-[110%] hover:text-[#ce4649] hover:underline capitalize font-semibold text-[15px]">
             <Link href="/About">About</Link>
           </div>
-
         </div>
         <div className="hidden md:flex items-start gap-2">
-        <Link href="/ContactUs">
-          <Button className="bg-teal-600 hover:bg-[#ce4649] hover:text-white">
-            Contact Us
-          </Button>
+          <Link href="/ContactUs">
+            <Button className="bg-teal-600 hover:bg-[#ce4649] hover:text-white">
+              Contact Us
+            </Button>
           </Link>
         </div>
       </div>
