@@ -22,7 +22,7 @@ import {
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [cartItems, setCartItems] = useState(2); // State to manage cart item count
+  const [cartItems] = useState(2); // State to manage cart item count
 
   const handleSearch = () => {
     if (selectedCategory) {
@@ -32,16 +32,6 @@ const Navigation = () => {
       // Show an alert if no category is selected
       alert("Please select a category!");
     }
-  };
-
-  const handleAddToCart = () => {
-    // Example of updating cart items; this would ideally come from your API or state management
-    setCartItems((prev) => prev + 1);
-  };
-
-  const handleRemoveFromCart = () => {
-    // Example of removing an item; ensuring cart count doesn't drop below 0
-    setCartItems((prev) => (prev > 0 ? prev - 1 : 0));
   };
 
   return (

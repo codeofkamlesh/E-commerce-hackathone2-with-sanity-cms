@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image"; // Import the Image component from Next.js
 import { getCart, updateQuantity, removeFromCart } from "../../Utils/cartUtils";
 import { useEffect, useState } from "react";
 
@@ -37,9 +38,11 @@ const Cart = () => {
                 key={item.productId}
                 className="flex flex-wrap justify-between bg-white text-black mb-5 p-5 rounded-lg gap-5"
               >
-                <img
+                <Image
                   src={item.imageUrl} // Ensure `imageUrl` exists in your product data
                   alt={item.title}
+                  width={128}
+                  height={128}
                   className="w-32 h-32 rounded-lg"
                 />
                 <div className="flex-grow ml-5">
