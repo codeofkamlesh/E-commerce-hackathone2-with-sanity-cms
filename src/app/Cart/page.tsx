@@ -3,11 +3,26 @@ import Image from "next/image"; // Import the Image component from Next.js
 import { getCart, updateQuantity, removeFromCart } from "../../Utils/cartUtils";
 import { useEffect, useState } from "react";
 
-const Cart = () => {
-  const [cart, setCart] = useState(getCart());
+// Define the CartItem interface
+interface CartItem {
+  productId: string;
+  imageUrl: string;
+  title: string;
+  price: number;
+  quantity: number;
+}
 
+const Cart = () => {
+  // Use the CartItem type for the cart state
+  const [cart, setCart] = useState<CartItem[]>([]);
+
+  // Ensure cart is populated after component mounts (client-side only)
   useEffect(() => {
-    setCart(getCart());
+    // Check if window is defined to ensure this runs only on the client side
+    if (typeof window !== "undefined") {
+      const storedCart = getCart();
+      setCart(storedCart);
+    }
   }, []);
 
   const handleQuantityChange = (productId: string, quantity: number) => {
@@ -44,6 +59,7 @@ const Cart = () => {
                   width={128}
                   height={128}
                   className="w-32 h-32 rounded-lg"
+                  loading="lazy"  // Add lazy loading if the image isn't critical
                 />
                 <div className="flex-grow ml-5">
                   <h3 className="text-lg text-gray-800 font-semibold">{item.title}</h3>

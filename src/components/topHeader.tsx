@@ -22,7 +22,7 @@ import {
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [cartItems] = useState(2); // State to manage cart item count
+  const [cartItems] = useState(0); // State to manage cart item count
 
   const handleSearch = () => {
     if (selectedCategory) {
