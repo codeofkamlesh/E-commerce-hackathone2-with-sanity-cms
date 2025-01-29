@@ -105,7 +105,7 @@ const ProductCarousel: React.FC = () => {
               ${featuredProduct.price}.00 USD
             </div>
             {/* Display Product Description */}
-            <p className="text-gray-600">A Very comfortable and economic product on a suitable price , available in different sizes and different colors , try once and suggest everyone .</p>
+            <p className="text-gray-600">A Very comfortable and economic product on a suitable price , available in different sizes and different colors , try once and suggest everyone. The Best collectio ever.</p>
             <button
               onClick={() => {
                 toast({
