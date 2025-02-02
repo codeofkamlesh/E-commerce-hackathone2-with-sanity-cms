@@ -68,7 +68,7 @@ const orderSchema = {
       type: "number",
     },
     {
-      name: "orderDate",
+      name: "orderDate", //current order date
       title: "Order Date",
       type: "datetime",
       options: {
