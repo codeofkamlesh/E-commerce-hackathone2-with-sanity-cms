@@ -1,7 +1,8 @@
 "use client";
-import Image from "next/image"; // Import the Image component from Next.js
+import Image from "next/image";
 import { getCart, updateQuantity, removeFromCart } from "../../Utils/cartUtils";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 // Define the CartItem interface
 interface CartItem {
@@ -13,12 +14,10 @@ interface CartItem {
 }
 
 const Cart = () => {
-  // Use the CartItem type for the cart state
   const [cart, setCart] = useState<CartItem[]>([]);
+  const router = useRouter();
 
-  // Ensure cart is populated after component mounts (client-side only)
   useEffect(() => {
-    // Check if window is defined to ensure this runs only on the client side
     if (typeof window !== "undefined") {
       const storedCart = getCart();
       setCart(storedCart);
@@ -35,6 +34,10 @@ const Cart = () => {
   const handleRemoveItem = (productId: string) => {
     const updatedCart = removeFromCart(productId);
     setCart(updatedCart);
+  };
+
+  const handleCheckout = () => {
+    router.push("/checkout");
   };
 
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -54,12 +57,12 @@ const Cart = () => {
                 className="flex flex-wrap justify-between bg-white text-black mb-5 p-5 rounded-lg gap-5"
               >
                 <Image
-                  src={item.imageUrl} // Ensure `imageUrl` exists in your product data
+                  src={item.imageUrl}
                   alt={item.title}
                   width={128}
                   height={128}
                   className="w-32 h-32 rounded-lg"
-                  loading="lazy"  // Add lazy loading if the image isn't critical
+                  loading="lazy"
                 />
                 <div className="flex-grow ml-5">
                   <h3 className="text-lg text-gray-800 font-semibold">{item.title}</h3>
@@ -100,7 +103,10 @@ const Cart = () => {
             <span>Total:</span>
             <span>${subtotal.toFixed(2)}</span>
           </p>
-          <button className="w-full py-3 mt-4 bg-teal-500 text-white rounded-full text-lg hover:bg-teal-600">
+          <button
+            onClick={handleCheckout}
+            className="w-full py-3 mt-4 bg-teal-500 text-white rounded-full text-lg hover:bg-teal-600"
+          >
             Checkout
           </button>
         </div>
