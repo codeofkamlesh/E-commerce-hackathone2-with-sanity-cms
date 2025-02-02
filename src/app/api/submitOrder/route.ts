@@ -30,13 +30,30 @@ export async function POST(request: Request) {
         },
       }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Improved error handling
-    console.error("Error creating order:", error);  // Log the error for debugging
+    if (error instanceof Error) {
+      console.error("Error creating order:", error);  // Log the error for debugging
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: error.message || "An unexpected error occurred",
+        }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+
+    // Fallback for unexpected errors
+    console.error("Unexpected error:", error);
     return new Response(
       JSON.stringify({
         success: false,
-        error: error.message || "An unexpected error occurred",
+        error: "An unexpected error occurred",
       }),
       {
         status: 500,

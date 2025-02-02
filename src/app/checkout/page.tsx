@@ -38,7 +38,7 @@ interface CartItem {
 }
 
 const Checkout = () => {
-  const [cart, setCart] = useState<CartItem[]>(getCart());
+  const cart = useState<CartItem[]>(getCart())[0]; // Using state but only getting cart
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
 
   // Initialize the form
